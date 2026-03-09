@@ -49,7 +49,7 @@ eclipse {
 
 application {
     //Define the main class for the application.
-    mainClassName    = 'main.java.conway.MainConwayLifeJava'
+    mainClassName    = 'conway26Java.MainConwayLifeJava'
 }
 
 jar {

@@ -1,12 +1,12 @@
 # issLab2026
- Laboratorio di <b>Ingegneria dei Sistemi Software</b> a.a. 2025/2026 di Capacci Valeria 0001244142
+ Laboratorio di <b>Ingegneria dei Sistemi Software</b> a.a. 2025/2026 di Leonardo Ciacco 0001241050
 
  [Testo di riferimento:](https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf)
  <!-- comment: [ancora personalizzata] -->
 
  <h2 id="ParteA">Parte A: Dai programmi ai Sistemi a Microservizi</h2>
 
-# Chronicle [index](https://Festus55.github.io/issLab2026/chronicle/index.html)
+# Chronicle [index](https://Festus55.github.io/iss_leonardo_ciacco)
 
  ### Sistema ConwayLife in locale
  [Riferimento: conway26Java Dai requisiti al deployment](https://anatali.github.io/issLab2026/Project%20conway26Java.html#conway26java-dai-requisiti-al-deployment)
@@ -19,5 +19,5 @@
  ### Sistemi come servizi
  * ...
  ### Sistema ConwayLife con pagine HTML
- * [ConwayLife Sprint3(ConwayLife/Sprint3/conway26Java): evoluzione del sistema in locale
+ * [ConwayLife Sprint3](ConwayLife/Sprint3/conway26Java): evoluzione del sistema in locale
    usando una pagina HTML come dispositivo di I/O. <i>Distribuzione</i>: Docker yaml.

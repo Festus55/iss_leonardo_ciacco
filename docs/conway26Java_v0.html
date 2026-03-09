@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>   
+<title>conway26Java_v0</title>
+</head>
+
+<body>
+<div id="top">
+<h1>ConwayLife Sprint1</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+Realizzazione in Java del
+<a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.6'>GAME OF LIFE DI CONWAY</a>
+ 
+<h2>Requirements</h2>
+<pre>
+    Realizzare una versione in Java del gioco Life di Conway, come gioco zero-player. 
+    Il gioco consiste nell’introdurre una Griglia di Celle il cui stato (cella ‘viva’ o cella ‘morta’) 
+    evolve come stabilito dallle regole di ConwayLife
+
+    L’utente umano deve poter:
+     - specificare la configurazione iniziale della griglia del gioco	
+     - vedere l’evoluzione del gioco in forma opportuna 
+        (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )
+     - fermare e far ripartire l’evoluzione del gioco
+     - pulire (a gioco fermo) la configurazione della griglia del gioco
+
+</pre>
+
+<h2>Requirement analysis</h2>
+<pre>
+<code>//La cella ha uno stato (viva o morta) ottenibile e impostabile con gli opportuni accessori
+public interface ICell {
+	public void setStatus(boolean status); //primitiva
+	public boolean isAlive(); //primitiva
+	public void switchCellState(); //composta
+}</code>
+
+<code>//La griglia è un insieme di celle, con dimensioni specificabili, e con accessori per ottenere e impostare lo stato di ogni cella
+public interface IGrid {
+	public int getWidth(); //primitiva
+	public int getHeight(); //primitiva
+	
+	public ICell getCell(int x, int y); //primitiva
+	public boolean getCellValue(int x, int y); //composta
+	public void setCell(int x, int y, ICell cell); //primitiva
+	public void setCellValue(int x, int y, boolean value); //composta
+	
+    //Imposta tutte le celle della griglia a morte
+	public void reset(); //composta
+}</code>
+
+<code>//Life è un sistema che si occupa di far evolvere la griglia secondo le regole del gioco
+public interface LifeInterface {
+    void nextGeneration(); //primitiva
+
+    //Si riferisce alla cella della griglia
+    boolean isAlive(int row, int col); //composta
+
+    ICell getCell(int x, int y); //composta
+    void setCell(int row, int col, boolean alive); //composta
+    
+    Grid getGrid(); //primitiva
+    //Imposta tutte le celle della griglia a morte
+    void resetGrids(); //composta
+}
+</code>
+</pre>
+
+<h2>Problem analysis</h2>
+<pre>
+    <img src="./img/UML.jpg" alt="Diagramma uml del progetto">
+</pre>
+
+<h2>Test plans</h2>
+<pre>
+<code>public class CellTest {
+	@Test
+    //Per comodita una cella viva restituisce un boolean true, una cella morta restituisce un boolean false
+	public void testCell() {
+		var cell = null;
+		
+		cell.setStatus(true);
+		assertTrue(cell.isAlive());
+		
+		cell.setStatus(false);
+		assertFalse(cell.isAlive());
+	}
+}</code>
+
+<code>public class GridTest {
+	@Test(expected = IllegalArgumentException.class)
+    //Le coordinate della cella devono essere comprese in [0, dim)
+	public void testGrid() throws Exception {
+		var grid = null;
+		
+		for (int i = 0; i < grid.getWidth(); i++) {
+			for (int j = 0; j < grid.getHeight(); j++) {
+				assertFalse(grid.getCell(i, j).isAlive());
+			}
+		}
+		
+		grid.setCell(0, 0, new Cell(true));
+		assertTrue(grid.getCell(0, 0).isAlive());
+		
+		grid.getCell(-1, grid.getHeight() + 1);
+	}
+}</code>
+
+<code>public class LifeTest {
+    private LifeInterface lifeModel;
+
+	@Test
+	public void testSetCellAlive() {
+	    lifeModel.setCell(2, 3, true);
+
+	    assertTrue(lifeModel.isAlive(2, 3));
+	}
+	
+	@Test
+	public void testSetCellDead() {
+	    lifeModel.setCell(1, 1, false);
+
+	    assertFalse(lifeModel.isAlive(1, 1));
+	}
+	
+	@Test
+	public void testLonelyCellDies() {
+	    lifeModel.setCell(1, 1, true);
+	    lifeModel.nextGeneration();
+
+	    assertFalse(lifeModel.isAlive(1, 1));
+	}
+	
+	@Test
+	public void testBlockStillLife() {
+		lifeModel.setCell(1,1,true);
+		lifeModel.setCell(1,2,true);
+		lifeModel.setCell(2,1,true);
+		lifeModel.setCell(2,2,true);
+
+		lifeModel.nextGeneration();
+
+	    assertTrue(lifeModel.isAlive(1,1));
+	    assertTrue(lifeModel.isAlive(1,2));
+	    assertTrue(lifeModel.isAlive(2,1));
+	    assertTrue(lifeModel.isAlive(2,2));
+	}
+	
+	@Test
+	public void testReset() {
+		lifeModel.setCell(2,2,true);
+		lifeModel.resetGrids();
+
+	    assertFalse(lifeModel.isAlive(2,2));
+	}
+	
+	@Test
+	public void testGetGrid() {
+	    Grid grid = lifeModel.getGrid();
+
+	    assertNotNull(grid);
+	}
+
+}</code>
+</pre>
+
+<h2>Project</h2> 
+<pre></pre>
+
+<h2>Testing</h2> 
+<pre></pre>
+
+<h2>Deployment</h2> 
+<pre></pre> 
+
+<h2>Maintenance</h2> 
+<pre></pre>
+
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Claudio Marchini email: claudio.marchini@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/io.jpg" alt="io" width="15%" height="15%">
+https://github.com/Festus55/iss_leonardo_ciacco
+</div> 
+</body>
+</html>

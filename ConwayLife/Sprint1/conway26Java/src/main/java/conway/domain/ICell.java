@@ -1,7 +1,7 @@
 package main.java.conway.domain;
 
 public interface ICell {
-	void setStatus(boolean v);
-	boolean isAlive();
-	void switchCellState();
+	public void setStatus(boolean status);
+	public boolean isAlive();
+	public void switchCellState();
 }

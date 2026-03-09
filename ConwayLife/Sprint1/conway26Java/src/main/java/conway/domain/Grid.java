@@ -1,108 +1,65 @@
 package main.java.conway.domain;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import unibo.basicomm23.utils.CommUtils;
 
-public class Grid implements IGrid{
-
-	private Cell[][] gridrep;
-	private int rows, cols;
-	
-	public Grid( int rowsNum, int colsNum) {
-		this.rows = rowsNum;
-		this.cols = rowsNum;
-		gridrep = new Cell[rowsNum][colsNum];	
-		initGrid();
+public class Grid implements IGrid {
+	public Grid(int width, int height) {
+		if (width <= 0) {
+			throw new IllegalArgumentException("width must be greater than 0");
+		}
+		if (height <= 0) {
+			throw new IllegalArgumentException("height must be greater than 0");
+		}
+		
+		grid = new Cell[width][height];
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				grid[i][j] = new Cell();
+			}
+		}
 	}
 	
-
-	  protected void initGrid() {
-		  CommUtils.outyellow("Grid | initGrid rows=" + rows + " cols=" + cols);
-		  for (int i = 0; i < rows; i++) {
-		     for (int j = 0; j < cols; j++) {
-		    	 gridrep[i][j] = new Cell();
-		     }
-		  }
-		  //CommUtils.outyellow("Grid | initGrid done");
-	  }	
-	  
-	  @Override
-	  public int getRowsNum() {
-		  return rows;
-	  }
-	  @Override
-	  public int getColsNum() {
-		  return cols;
-	  }
-	  @Override
-	  public Cell getCell(int x, int y) {
-		  return gridrep[x][y] ;
-	  }
-	  @Override
-	  public void setCellValue(int x, int y, boolean state) {
-		  gridrep[x][y].setStatus(state);
-	  }
-	  @Override
-	  public boolean getCellValue(int x, int y) {
-		  return gridrep[x][y].isAlive();
-	  }
-	  @Override
-	  public void reset() {
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < cols; j++) {
-					gridrep[i][j].setStatus(false);
-				}
+	@Override
+	public int getWidth() { return grid.length; }
+	@Override
+	public int getHeight() { return grid[0].length; }
+	@Override
+	public ICell getCell(int x, int y)  {
+		if (x < 0 || x >= getWidth()) {
+			throw new IllegalArgumentException("x coordinate must be between 0 and width");
+		}
+		if (y < 0 || y >= getHeight()) {
+			throw new IllegalArgumentException("y coordinate must be between 0 and height");
+		}
+		
+		return grid[x][y];
+	}
+	@Override
+	public boolean getCellValue(int x, int y) {
+		return getCell(x, y).isAlive();
+	}
+	@Override
+	public void setCell(int x, int y, ICell cell)  {
+		if (x < 0 || x >= getWidth()) {
+			throw new IllegalArgumentException("x coordinate must be between 0 and width");
+		}
+		if (y < 0 || y >= getHeight()) {
+			throw new IllegalArgumentException("y coordinate must be between 0 and height");
+		}
+		
+		grid[x][y] = cell;
+	}
+	@Override
+	public void setCellValue(int x, int y, boolean value) {
+		setCell(x, y, new Cell(value));
+	}
+	
+	@Override
+	public void reset() {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				grid[i][j] = new Cell();
 			}
-	  }
-	  
-	  /*
-	   * Grid non deve sapere di I/O
-	   */
-	  
-	  public String toString() {
-		    return Arrays.stream( gridrep ) // Stream di Cell[] (le righe)
-	        .map(row -> {
-	            // Trasformiamo ogni riga in una stringa di . e O
-	            StringBuilder sb = new StringBuilder();
-	            for (Cell cell : row) {
-	                sb.append(cell.isAlive() ? "O " : ". ");
-	            }
-	            return sb.toString();
-	        })
-	        .collect(Collectors.joining("\n")); // Uniamo le righe con un a capo  
-	  }
-	   
+		}
+	}
+	
+	private ICell[][] grid;
 }
-
-//public void printGrid() {
-//	for (int i = 0; i < rows; i++) {
-//		for (int j = 0; j < cols; j++) {
-//			CommUtils.outcyan("cell x="+ i + "y="+j+ ":" +  getCellValue(i,j));
-//		}
-//		CommUtils.outblack("\n");
-//	}
-//	}
-
-//protected boolean[][] getGridReAsBoolArrayp() {
-//boolean[][] simplegrid = new boolean[rows][cols];
-//for (int i = 0; i < rows; i++) {
-//	for (int j = 0; j < cols; j++) {
-//		simplegrid[i][j] = gridrep[i][j].isAlive();
-//	}
-//}
-//return simplegrid;
-//}
-
-//@Override
-//public String gridRep( ) {
-//return Arrays.stream(getGridReAsBoolArrayp()) // Stream di boolean[] (le righe)
-//    .map(row -> {
-//        // Trasformiamo ogni riga in una stringa di . e O
-//        StringBuilder sb = new StringBuilder();
-//        for (boolean cell : row) {
-//            sb.append(cell ? "O " : ". ");
-//        }
-//        return sb.toString();
-//    })
-//    .collect(Collectors.joining("\n")); // Uniamo le righe con un a capo
-//}

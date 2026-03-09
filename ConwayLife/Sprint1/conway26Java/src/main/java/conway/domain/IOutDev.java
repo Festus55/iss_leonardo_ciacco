@@ -4,8 +4,8 @@ package main.java.conway.domain;
  */
 public interface IOutDev {
 	public void display(String msg);      //For HMI
-	public void displayCell(IGrid grid, int x, int y);   
+	public void displayCell(Cell cell, Grid grid);   
 	public void close();
-	public void displayGrid(IGrid grid);
+	public void displayGrid(Grid grid);
 
 }

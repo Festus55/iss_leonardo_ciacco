@@ -1,28 +1,20 @@
 package main.java.conway.domain;
 
 public class Cell implements ICell {
-	/* Definisco la rappresentazione concreta di una cella*/
-    private int value;
-    
-    public Cell() {
-    	value = -1;
-    }
-    
-	@Override
-	public void setStatus(boolean v) {
-		if( v ) value = 1;
-		else value = -1;
+	public Cell() {
+		this(false);
 	}
-
-	@Override
-	public boolean isAlive() {
-		return value > 0;
+	
+	public Cell(boolean value) {
+		alive = value;
 	}
 	
 	@Override
-	public void switchCellState() {
-		if( isAlive() ) value = -1;
-		else value=1;
-	}
-
+	public void setStatus(boolean status) { alive = status; }
+	@Override
+	public boolean isAlive() { return alive; }
+	@Override
+	public void switchCellState() { alive = !alive; }
+	
+	private boolean alive;
 }
