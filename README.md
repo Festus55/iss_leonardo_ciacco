@@ -17,7 +17,7 @@
    con un dispositivo di output realizzato in Swing. <i>Distribuzione</i>: file jar.
    [Code](ConwayLife/Sprint2/conway26JavaSwing)
  ### Sistemi come servizi
- * ...
+ * [SistemaSJavalin](/SistemaSJavalin/): Realizzazione di un servizio in Java che fa il calcolo dei valori di una espressione matematica con deployment del servizio in docker usando il framework javalin.
  ### Sistema ConwayLife con pagine HTML
  * [ConwayLife Sprint3](ConwayLife/Sprint3/conway26Java): evoluzione del sistema in locale
    usando una pagina HTML come dispositivo di I/O. <i>Distribuzione</i>: Docker yaml.
