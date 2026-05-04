@@ -21,3 +21,6 @@
  ### Sistema ConwayLife con pagine HTML
  * [ConwayLife Sprint3](ConwayLife/Sprint3/conway2026/): evoluzione del sistema in locale
    usando una pagina HTML come dispositivo di I/O. <i>Distribuzione</i>: Docker yaml.
+### Sistemi ad Attori e Sincronizzazione
+* [FireFlySynch](FireflySynch/fireflysynch.html): Analisi del problema e dei requisiti per il problema della sincronizzazione delle lucciole
+  [Code](FireflySynch/fireflysynch.qaktt)

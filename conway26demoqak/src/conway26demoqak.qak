@@ -1,0 +1,19 @@
+System conway26demoqak
+mqttBroker "localhost" : 1883 eventTopic "lifegameIn"
+
+Event start : start(X)
+
+Context ctxgame ip [ host="localhost" port=8010 ]
+
+QActor lifegame context ctxgame {
+    State s0 initial {
+        println("$name | starting") color blue
+        println("$name | ends") color blue
+    }
+    Transition t0
+    	whenEvent start -> handleStart
+    	
+    State handleStart {
+    	printCurrentMessage color magenta
+    }
+}
