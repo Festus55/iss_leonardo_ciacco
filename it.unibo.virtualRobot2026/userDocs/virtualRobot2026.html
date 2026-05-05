@@ -21,25 +21,60 @@
 
 <h2>Introduction</h2>
 <pre>
-<b>Goal</b>:
-Costruire un sistema software che comanda un Differential Drive Robot (DDR) in modo che, 
-partendo dalla posizione iniziale HOME, il robot si sposti lungo il perimetro di una stanza rettangolare vuota. 
-Il DDR si deve fermare quando tornato in HOME.
-
-Il DDR è anche sensibile ai dati rilevati da un Radar.
-Quando il Radar rileva un 'intruso' a una distanza minore di una distanza prefissata ``DMIN``:
-  
-  - se il DDR si sta muovendo , il DDR si ferma fino a che il Radar non rileva più un 'intruso' così vicino 
-  - se il DDR è fermo in HOME, il DDR ruota su sè stesso fino a che un 'intruso' così vicino scompare
+<b>Goal</b>: Costruire un sistema software che comanda un Differential Drive Robot (DDR) 
 
 </pre>
 <h2>Requirements</h2>
-<div class="remark">
 
+<div class="remark">
+Costruire un sistema software che comanda un Differential Drive Robot (DDR) in modo che, </br>
+partendo dalla posizione iniziale HOME, il robot si sposti lungo il perimetro di una stanza rettangolare vuota. </br>
+Il DDR si deve fermare quando tornato in HOME.</br>
+</br>
+Il DDR è anche sensibile ai dati rilevati da un Radar.</br>
+Quando il Radar rileva un 'intruso' a una distanza minore di una distanza prefissata ``DMIN``:</br>
+  </br>
+  - se il DDR si sta muovendo , il DDR si ferma fino a che il Radar non rileva più un 'intruso' così vicino </br>
+  - se il DDR è fermo in HOME, il DDR ruota su sè stesso fino a che un 'intruso' così vicino scompare</br>
 </div>
+
 <h2>Requirement analysis</h2>
  
 <pre>
+
+<li>R1: Comando di una sola entità di robot alla volta</li>
+<li>R2: Il robot comincia in posizione iniziale, chiamata "HOME"</li>
+<li>R3: Il robot si muove lungo un perimetro</li>
+<li>R4: Condizione di termine del lavoro del robot è che ritorni in un luogo intorno alla zona che è contrassegnata come HOME</li>
+<li>R5: Condizione di arresto temporaneo del robot è l'incontro di un'ostacolo percepito a distanza minore di una distanza DMIN</li>
+<li>R6: Condizione di uscita dallo stato di arresto temporaneo è che l'ostacolo non venga più rilevato a distanza minore di DMIN</li>
+<li>R7: Se nella zona HOME il robot rileva un ostacolo a distanza minore di DMIN, ruota sul posto fino a quando non trova una direzione sul perimetro in cui può andare e che non abbia un stacolo a distanza minore di DMIN</li>
+</pre>
+<pre>
+Dall'interazione con il committente è stato possibile evincere e descrivere con più precisione i seguenti concetti
+
+Robot - entità (<a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.17">Attore</a>) che:
+1. agisce in maniera indipendente
+2. conosce il perimetro della stanza
+3. si muove solo lungo il perimetro in una o l'altra direzione -> la zona HOME deve essere sul perimetro
+4. può muoversi avanti o ruotare su sé stesso
+5. una volta che inizia a muoversi si ferma solo se incontra un ostacolo (segnalato da un sonar) o termina 
+6. può misurare la distanza che percorre per conoscere la propria posizione sul perimetro
+7. conoscendo il perimetro percorre linee dritte fino agli angoli, di cui conosce l'ampiezza, qui vi si ferma e rutora di conseguenza
+
+Sonar - entità (<a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.17">Attore</a>) che:
+1. misura la distanza tra gli oggetti e il robot
+2. manda un segnale di blocco quando questa distanza è minore di un valore DMIN noto a priori
+3. manda un segnale di sblocco se questa distanza è maggiore di DMIN
+
+HOME - punto o zona del perimetro da cui il robot parte e su cui il robot termina
+
+Considerazione: 
+- è necessario per la partenza del robot da HOME che questi trovi una delle due direzioni sul perimetro prive di ostacoli, e, nel mentre, ruoterà su sé stesso senza termine
+
+- Essendo il perimetro noto, è possibile considerarlo come l'unione tra una lunghezza e la lista dei suoi angoli. Per identificare la posizione del robot lungo il perimetro è sufficiente utilizzare un float minore della lunghezza del perimetro e considerare che il float rappresenta la quantità di perimetro percorsa in senso orario/antiorario rispetto alla HOME
+
+- La misurazione delle distanze percorse può essere sotto forma di eventi lanciati dai sensori su ognuna delle due ruote e modellati come <a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.17">attori</a> o come pojo che modifica dinamicamente i valori interni tramite i servizi di movimento.
 </pre>
   
 
