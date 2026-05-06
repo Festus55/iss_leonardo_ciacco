@@ -24,3 +24,5 @@
 ### Sistemi ad Attori e Sincronizzazione
 * [FireFlySynch](FireflySynch/fireflysynch.html): Analisi del problema e dei requisiti per il problema della sincronizzazione delle lucciole
   [Code](FireflySynch/fireflysynch.qaktt)
+* [Virtual Robot](it.unibo.virtualRobot2026/userDocs/virtualRobot2026.html): Analisi dei requisiti riguardante un DDRM.
+
